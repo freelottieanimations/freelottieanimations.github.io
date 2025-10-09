@@ -1,20 +1,35 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="transition-colors duration-300">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lottie Animations - Icon Buttons</title>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans p-6 flex flex-col min-h-screen">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans p-6 flex flex-col min-h-screen transition-colors duration-300">
 
-  <h1 class="text-2xl font-bold mb-6">Lottie Animations — Preview & Controls</h1>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Lottie Animations — Preview & Controls</h1>
+    <!-- Icon button -->
+    <button id="theme-toggle" class="p-2 rounded border hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+      <!-- Sun/Moon icons using Heroicons -->
+      <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m0-13.728l1.414 1.414M17.95 17.95l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
+      </svg>
+      <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+      </svg>
+    </button>
+  </div>
 
   <!-- 4-column grid container -->
-  <div id="animations-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 flex-grow">
-    <!-- Cards injected by JS -->
-  </div>
+  <div id="animations-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 flex-grow"></div>
 
 <script>
 const animations = [
@@ -27,50 +42,45 @@ const animations = [
   "https://assets9.lottiefiles.com/packages/lf20_twijbubv.json"
 ];
 
-function filenameFromUrl(url){
-  try { return url.split('/').pop(); } 
-  catch(e) { return url; }
-}
+function filenameFromUrl(url){ return url.split('/').pop(); }
 
 const container = document.getElementById('animations-container');
 
 animations.forEach((url, idx) => {
   const id = `player-${idx}`;
-
   const card = document.createElement('div');
-  card.className = "bg-white rounded-xl shadow-md p-4 flex flex-col items-center gap-4";
+  card.className = "bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center gap-4 transition-colors duration-300";
 
   card.innerHTML = `
     <lottie-player id="${id}" src="${url}" background="transparent" speed="1" style="width:160px; height:160px;" loop autoplay></lottie-player>
     <div class="text-center">
       <h2 class="font-semibold text-lg">${filenameFromUrl(url)}</h2>
-      <p class="text-gray-500 text-sm truncate w-48 mx-auto mt-1">${url}</p>
+      <p class="text-gray-500 dark:text-gray-300 text-sm break-all mt-1">${url}</p>
     </div>
     <div class="flex items-center gap-2 mt-2 flex-wrap justify-center">
-      <button class="border rounded p-2 hover:bg-gray-100" data-action="play" data-id="${id}" title="Play">
+      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="play" data-id="${id}" title="Play">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-6.48-3.84A1 1 0 007 8.168v7.664a1 1 0 001.272.96l6.48-3.84a1 1 0 000-1.664z" />
         </svg>
       </button>
-      <button class="border rounded p-2 hover:bg-gray-100" data-action="pause" data-id="${id}" title="Pause">
+      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="pause" data-id="${id}" title="Pause">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
         </svg>
       </button>
-      <button class="border rounded p-2 hover:bg-gray-100" data-action="stop" data-id="${id}" title="Stop">
+      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="stop" data-id="${id}" title="Stop">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <rect width="12" height="12" x="6" y="6" stroke-width="2" rx="2"/>
         </svg>
       </button>
-      <input type="number" min="0.1" step="0.1" value="1" data-speed-for="${id}" class="w-16 border rounded px-2 py-1 text-sm" title="Speed"/>
-      <button class="border rounded p-2 hover:bg-gray-100" data-action="copy" data-url="${url}" title="Copy URL">
+      <input type="number" min="0.1" step="0.1" value="1" data-speed-for="${id}" class="w-16 border rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" title="Speed"/>
+      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="copy" data-url="${url}" title="Copy URL">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 8h8m-8 8V8a2 2 0 012-2h4a2 2 0 012 2v8a2 2 0 01-2 2h-4a2 2 0 01-2-2z" />
         </svg>
       </button>
     </div>
   `;
-
   container.appendChild(card);
 });
 
@@ -113,11 +123,16 @@ document.addEventListener('input', (e) => {
   player.setAttribute('speed', v);
   player.setPlayerSpeed?.(v);
 });
+
+// dark mode toggle with icon switch
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+});
 </script>
 
 <!-- Footer -->
-<footer class="mt-8 text-center text-gray-500 text-sm">
-  Made with ❤️ by <a href="https://in.linkedin.com/in/victor-singha-48b479148" target="_blank" class="underline hover:text-gray-700">Victor</a>
+<footer class="mt-8 text-center text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">
+  Made with ❤️ by <a href="https://in.linkedin.com/in/victor-singha-48b479148" target="_blank" class="underline hover:text-gray-700 dark:hover:text-gray-200">Victor</a>
 </footer>
 
 </body>
