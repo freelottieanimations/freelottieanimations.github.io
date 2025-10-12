@@ -16,9 +16,8 @@
 
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold">Free Lottie Animations — Preview</h1>
-    <!-- Icon button -->
+    <!-- Icon button for theme toggle -->
     <button id="theme-toggle" class="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-      <!-- Sun/Moon icons -->
       <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m0-13.728l1.414 1.414M17.95 17.95l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
       </svg>
@@ -55,63 +54,13 @@ const container = document.getElementById('animations-container');
 animations.forEach((url, idx) => {
   const id = `player-${idx}`;
   const card = document.createElement('div');
-  card.className = "bg-white dark:bg-gray-800 rounded-xl p-4 flex flex-col items-center gap-4 transition-colors duration-300";
+  card.className = "bg-white dark:bg-gray-800 rounded-xl p-4 flex flex-col items-center gap-2 transition-colors duration-300";
 
   card.innerHTML = `
     <lottie-player id="${id}" src="${url}" background="transparent" speed="1" style="width:160px; height:160px;" loop autoplay></lottie-player>
     <p class="text-gray-500 dark:text-gray-300 text-sm break-all text-center">${url}</p>
-    <div class="flex items-center gap-2 mt-2 flex-wrap justify-center">
-      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="play" data-id="${id}" title="Play">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-6.48-3.84A1 1 0 007 8.168v7.664a1 1 0 001.272.96l6.48-3.84a1 1 0 000-1.664z" />
-        </svg>
-      </button>
-      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="pause" data-id="${id}" title="Pause">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6" />
-        </svg>
-      </button>
-      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="stop" data-id="${id}" title="Stop">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <rect width="12" height="12" x="6" y="6" stroke-width="2" rx="2"/>
-        </svg>
-      </button>
-      <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="copy" data-url="${url}" title="Copy URL">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 8h8m-8 8V8a2 2 0 012-2h4a2 2 0 012 2v8a2 2 0 01-2 2h-4a2 2 0 01-2-2z" />
-        </svg>
-      </button>
-    </div>
   `;
   container.appendChild(card);
-});
-
-// Controls
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  const action = btn.dataset.action;
-  const id = btn.dataset.id;
-  const url = btn.dataset.url;
-
-  if (action === 'copy' && url) {
-    navigator.clipboard?.writeText(url).then(() => {
-      btn.title = 'Copied!';
-      setTimeout(()=> btn.title = 'Copy URL', 1200);
-    }).catch(()=> alert('Copy failed'));
-    return;
-  }
-
-  if (!id) return;
-  const player = document.getElementById(id);
-  if (!player) return;
-
-  if (action === 'play') player.play();
-  if (action === 'pause') player.pause();
-  if (action === 'stop') {
-    player.stop();
-    player.pause();
-  }
 });
 
 // Dark mode toggle
