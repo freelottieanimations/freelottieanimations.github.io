@@ -18,7 +18,7 @@
     <h1 class="text-2xl font-bold">Free Lottie Animations — Preview</h1>
     <!-- Icon button -->
     <button id="theme-toggle" class="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-      <!-- Sun/Moon icons using Heroicons -->
+      <!-- Sun/Moon icons -->
       <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m0-13.728l1.414 1.414M17.95 17.95l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
       </svg>
@@ -28,8 +28,8 @@
     </button>
   </div>
 
-  <!-- 4-column grid container -->
-  <div id="animations-container" class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 flex-grow"></div>
+  <!-- 5-column grid container -->
+  <div id="animations-container" class="grid gap-6 md:grid-cols-3 lg:grid-cols-5 flex-grow"></div>
 
 <script>
 const animations = [
@@ -50,8 +50,6 @@ const animations = [
   "https://assets2.lottiefiles.com/packages/lf20_ybiszbil.json"
 ];
 
-function filenameFromUrl(url){ return url.split('/').pop(); }
-
 const container = document.getElementById('animations-container');
 
 animations.forEach((url, idx) => {
@@ -61,10 +59,7 @@ animations.forEach((url, idx) => {
 
   card.innerHTML = `
     <lottie-player id="${id}" src="${url}" background="transparent" speed="1" style="width:160px; height:160px;" loop autoplay></lottie-player>
-    <div class="text-center">
-      <h2 class="font-semibold text-lg">${filenameFromUrl(url)}</h2>
-      <p class="text-gray-500 dark:text-gray-300 text-sm break-all mt-1">${url}</p>
-    </div>
+    <p class="text-gray-500 dark:text-gray-300 text-sm break-all text-center">${url}</p>
     <div class="flex items-center gap-2 mt-2 flex-wrap justify-center">
       <button class="border rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700" data-action="play" data-id="${id}" title="Play">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -91,7 +86,7 @@ animations.forEach((url, idx) => {
   container.appendChild(card);
 });
 
-// controls
+// Controls
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn) return;
@@ -119,19 +114,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// speed control
-document.addEventListener('input', (e) => {
-  const el = e.target;
-  const id = el.dataset.speedFor;
-  if (!id) return;
-  const player = document.getElementById(id);
-  if (!player) return;
-  const v = parseFloat(el.value) || 1;
-  player.setAttribute('speed', v);
-  player.setPlayerSpeed?.(v);
-});
-
-// dark mode toggle with icon switch
+// Dark mode toggle
 document.getElementById('theme-toggle').addEventListener('click', () => {
   document.documentElement.classList.toggle('dark');
 });
